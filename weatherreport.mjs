@@ -9,6 +9,15 @@ function sensorStub() {
     };
 }
 
+function highPrecipitationStub() {
+    return {
+        temperatureInC: 30,
+        precipitation: 70,
+        humidity: 50,
+        windSpeedKMPH: 40
+    };
+}
+
 function report(sensorReader) {
     const readings = sensorReader();
     let weather = "Sunny Day";
@@ -30,14 +39,8 @@ function testRainy() {
 }
 
 function testHighPrecipitation() {
-    // This instance of stub needs to be different-
-    // to give high precipitation (>60) and low wind-speed (<50)
-
-    const weather = report(sensorStub);
-
-    // strengthen the assert to expose the bug
-    // (function returns Sunny day, it should predict rain)
-    expect(weather).is.not.empty;
+    const weather = report(highPrecipitationStub);
+    expect(weather).equals("Alert, Stormy with heavy rain", "Test failed: Expected 'Alert, Stormy with heavy rain'");
 }
 
 testRainy();
